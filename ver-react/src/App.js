@@ -1,13 +1,13 @@
 import React, { useState } from "react";
-import ComponentA from "./ComponentA";
-import ComponentB from "./ComponentB";
+import MainTarot from "./components/main";
+import HelloTarot from "./components/hello";
 import "./App.css";
 
 function App() {
-  const [showComponentA, setShowComponentA] = useState(true);
+  const [ShowMainTarot, setShowMainTarot] = useState(true);
 
   const toggleComponent = () => {
-    setShowComponentA((prev) => !prev);
+    setShowMainTarot((prev) => !prev);
   };
 
   return (
@@ -16,7 +16,7 @@ function App() {
         시작하기
       </button>
       &nbsp;
-      {showComponentA ? <ComponentA /> : <ComponentB />}
+      {ShowMainTarot ? <MainTarot /> : <HelloTarot />}
     </div>
   );
 }
