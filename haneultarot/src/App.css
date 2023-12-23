@@ -5,6 +5,11 @@
   font-weight: normal;
   font-style: normal;
 }
+.loginNmae {
+  position: absolute;
+  top: 3%;
+  left: 95%;
+}
 
 .Tarobot {
   background-size: cover;

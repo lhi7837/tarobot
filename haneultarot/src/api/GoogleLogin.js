@@ -1,5 +1,5 @@
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
-import { useState } from "react";
+import React, { useState } from "react";
 import { app, database, auth } from "../firebase.js";
 
 function GoogleLogin() {
@@ -19,8 +19,13 @@ function GoogleLogin() {
 
   return (
     <div>
-      <button onClick={handleGoogleLogin}>구글 Login</button>
-      {userData ? userData.displayName : null}
+      {userData ? (
+        userData.email + "님 환영합니다."
+      ) : (
+        <button onClick={handleGoogleLogin} className="loginBtn">
+          구글 Login
+        </button>
+      )}
     </div>
   );
 }

@@ -23,9 +23,7 @@ const readUserDataRealtime = (userId, callback) => {
 
 const dataSubmit = (currentPage, maxPage, userId, formData) => {
   if (currentPage === maxPage) {
-    // Save data to Firebase Realtime Database
-    // const userId = app.auth().currentUser.uid; // Ensure the user is authenticated
-    console.log(" 일단 실행은 함 userId:", userId);
+    const userId = app.auth().currentUser.uid;
     writeUserData(userId, formData)
       .then(() => {
         console.log("Data saved to Firebase!");
