@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import TarotTitle from "./components/Title";
 import HelloTarot from "./components/Splash";
 import StartTarot from "./pages/StartTarot";
+import GoogleLogin from "./api/GoogleLogin";
 import "./App.css";
 
 function App() {
@@ -14,9 +15,12 @@ function App() {
     <div className="Tarobot">
       <div className="custom-button">
         {PageNumber === 0 ? (
-          <button className="next-button" onClick={nextPage}>
-            시작하기
-          </button>
+          <div className="starting">
+            <button className="next-button" onClick={nextPage}>
+              시작하기
+            </button>
+            <GoogleLogin />
+          </div>
         ) : null}
       </div>
       &nbsp;
