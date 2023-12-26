@@ -1,34 +1,44 @@
+/* eslint-disable react/prop-types */
 // TarotDataInput.js
 import React, { useState } from "react";
 import { dataSubmit } from "../api/UserDataService";
 import MoveBtn from "../components/MoveBtn";
 import { useAuth } from "../api/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 const TarotDataInput = () => {
+  const userData = useAuth();
   const [currentPage, setCurrentPage] = useState(1);
 
   const [formData, setFormData] = useState({
-    googleauth: "false",
+    email: userData.email || "",
     name: "",
     gender: "",
     relationshipStatus: "",
     ageGroup: "",
     currentConcerns: "",
   });
-  const userData = useAuth();
   const handleInputChange = (field, value) => {
     setFormData((prevData) => ({ ...prevData, [field]: value }));
   };
   const maxPageNumber = 5;
+  const navigate = useNavigate();
 
-  const onPaging = (pageNumber, nextstep) => {
-    if (nextstep === "next") {
+  const onPaging = (pageNumber, nextStep) => {
+    if (nextStep === "next") {
       setCurrentPage((prevPage) => prevPage + 1);
-    } else if (nextstep === "prev") {
+    } else if (nextStep === "prev") {
       setCurrentPage((prevPage) => prevPage - 1);
-    } else if (nextstep === "submit") {
-      dataSubmit(pageNumber, maxPageNumber, userData.email, formData);
-      setCurrentPage(0); // 혹은 필요에 따라 다른 페이지로 설정
+    } else if (nextStep === "submit") {
+      try {
+        dataSubmit(pageNumber, maxPageNumber, userData.uid, formData);
+        navigate("/start");
+      } catch (error) {
+        console.error("Error submitting data:", error);
+        alert(
+          "오류가 발생했습니다. 다시 시도해주세요. 문제가 지속되면 관리자에게 문의해주세요."
+        );
+      }
     }
   };
 
@@ -140,10 +150,12 @@ const TarotDataInput = () => {
         )}
 
         {currentPage === 5 && (
-          <div>
+          <div className="user-data-form">
             <p>요즘의 고민을 입력하세요.</p>
             <textarea
+              style={{ width: "50%", height: "150px" }}
               value={formData.currentConcerns}
+              placeholder="요즘의 고민을 입력하세요."
               onChange={(e) =>
                 handleInputChange("currentConcerns", e.target.value)
               }
@@ -154,7 +166,7 @@ const TarotDataInput = () => {
       <MoveBtn
         currentPage={currentPage}
         maxPage={maxPageNumber}
-        onClick={(pageNumber, nextstep) => onPaging(pageNumber, nextstep)}
+        onClick={(pageNumber, nextStep) => onPaging(pageNumber, nextStep)}
       />
     </div>
   );

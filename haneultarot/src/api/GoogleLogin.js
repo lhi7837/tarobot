@@ -1,15 +1,13 @@
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
-import React, { useState } from "react";
-import { app, database, auth } from "../firebase.js";
+import React from "react";
+import { auth } from "../firebase.js";
+import { useAuth } from "./AuthContext.js";
 
 function GoogleLogin() {
-  const [userData, setUserData] = useState(null);
-
+  const authUser = useAuth();
   function handleGoogleLogin() {
-    const provider = new GoogleAuthProvider(); // provider를 구글로 설정
-    signInWithPopup(auth, provider) // popup을 이용한 signup
+    signInWithPopup(auth, new GoogleAuthProvider()) // popup을 이용한 signup
       .then((data) => {
-        setUserData(data.user); // user data 설정
         console.log(data); // console로 들어온 데이터 표시
       })
       .catch((err) => {
@@ -19,8 +17,11 @@ function GoogleLogin() {
 
   return (
     <div>
-      {userData ? (
-        userData.email + "님 환영합니다."
+      {authUser ? (
+        <div>
+          <p>{authUser.email + "님 환영합니다."}</p>
+          <button onClick={() => auth.signOut()}>로그아웃</button>
+        </div>
       ) : (
         <button onClick={handleGoogleLogin} className="loginBtn">
           구글 Login

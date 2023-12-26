@@ -23,7 +23,6 @@ const readUserDataRealtime = (userId, callback) => {
 
 const dataSubmit = (currentPage, maxPage, userId, formData) => {
   if (currentPage === maxPage) {
-    const userId = app.auth().currentUser.uid;
     writeUserData(userId, formData)
       .then(() => {
         console.log("Data saved to Firebase!");
