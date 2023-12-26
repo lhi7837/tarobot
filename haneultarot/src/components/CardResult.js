@@ -1,42 +1,34 @@
 import React, { useEffect, useState } from "react";
 import Gemini from "../api/Gemini";
-import { auth } from "../firebase.js";
-import PropTypes from "prop-types";
-import { useAuth } from "../api/AuthContext.js";
 import { readUserDataOnce } from "../api/UserDataService";
+import { useAuth } from "../api/AuthContext";
 
-const CardResult = ({ choicedDeck }) => {
-  const [userInfo, setUserInfo] = useState(useAuth());
+const CardResult = () => {
+  const [userInfo, setUserInfo] = useState(null);
+  const user = useAuth(); // useAuth() 함수 호출을 통해 사용자 정보를 얻습니다.
 
   useEffect(() => {
     const fetchUserInfo = async () => {
       try {
-        const user = auth.currentUser;
-        const userSnapshot = await readUserDataOnce(user.uid);
-        setUserInfo(userSnapshot);
+        const userData = await readUserDataOnce(user.uid);
+        setUserInfo(userData);
       } catch (error) {
-        console.error("Fetching 에러 ", error);
+        console.error("유저 정보 불러오기 에러:", error);
       }
     };
 
     fetchUserInfo();
-  }, []);
-
-  // CardResult에서 Gemini에 전달할 props
-  const geminiProps = {
-    userInfo,
-    cardResults: choicedDeck,
-  };
+  }, [user]); // useEffect의 dependency 배열에 user를 추가하여 해당 값이 변경될 때마다 실행되도록 합니다.
 
   return (
     <div>
-      <Gemini geminiProps={geminiProps} />
+      {userInfo ? (
+        <Gemini geminiProps={userInfo} />
+      ) : (
+        <p>Loading user information...</p>
+      )}
     </div>
   );
-};
-
-CardResult.propTypes = {
-  choicedDeck: PropTypes.array.isRequired,
 };
 
 export default CardResult;

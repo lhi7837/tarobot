@@ -3,7 +3,6 @@ import { ref, set, get, onValue } from "firebase/database";
 import { app, database, auth } from "../firebase.js";
 
 const writeUserData = (userId, data) => {
-  console.log("writeUserData: userId, data", userId, data);
   const userRef = ref(database, `users/${userId}`);
   return set(userRef, data);
 };

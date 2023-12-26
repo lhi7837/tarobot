@@ -29,16 +29,19 @@ const shuffleCards = (cards) => {
 };
 
 const CardPick = () => {
+  const user = useAuth();
   const [shuffledDeck, setShuffledDeck] = useState([]);
   const [choicedDeck, setChoicedDeck] = useState([]);
   const [uid, setUid] = useState(""); // 추가
-
   useEffect(() => {
     // 컴포넌트가 처음 마운트될 때 덱을 섞음
     setShuffledDeck(shuffleCards(TarotDeckJson.tarot_deck));
-    const user = useAuth.currentUser;
-    if (user) {
-      setUid(user.uid);
+    try {
+      if (user.uid) {
+        setUid(user.uid);
+      }
+    } catch (error) {
+      console.error("user.uid 로딩 오류", error);
     }
   }, []);
 
@@ -59,7 +62,11 @@ const CardPick = () => {
 
       // uid/"오늘날짜"/ 경로에 데이터 저장
       const path = `${uid}/${todayDate}`;
-      writeUserData(path, choicedDeck);
+      try {
+        writeUserData(path, choicedDeck);
+      } catch (error) {
+        console.error("뽑은 카드 저장 오류", error);
+      }
     }
   }, [choicedDeck, uid]);
 

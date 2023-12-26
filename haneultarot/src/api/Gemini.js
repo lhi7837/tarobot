@@ -1,18 +1,16 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
+
 import React, { useState, useEffect } from "react";
-import {
-  GoogleGenerativeAI,
-  HarmCategory,
-  HarmBlockThreshold,
-} from "@google/generative-ai";
-import PropTypes from "prop-types";
+import { GoogleGenerativeAI } from "@google/generative-ai";
 
 const MODEL_NAME = "gemini-pro";
 const API_KEY = process.env.REACT_APP_GOOGLE_GEMINI_API_KEY;
+
 const Gemini = ({ geminiProps }) => {
-  const [result, setResult] = useState("");
+  const [tarotResult, setTarotResult] = useState("");
   const geminiPropsText = JSON.stringify(geminiProps, null, 2);
+
   useEffect(() => {
     const generateContent = async () => {
       const genAI = new GoogleGenerativeAI(API_KEY);
@@ -24,25 +22,6 @@ const Gemini = ({ geminiProps }) => {
         topP: 1,
         maxOutputTokens: 2048,
       };
-
-      const safetySettings = [
-        {
-          category: HarmCategory.HARM_CATEGORY_HARASSMENT,
-          threshold: HarmBlockThreshold.BLOCK_MEDIUM_AND_ABOVE,
-        },
-        {
-          category: HarmCategory.HARM_CATEGORY_HATE_SPEECH,
-          threshold: HarmBlockThreshold.BLOCK_MEDIUM_AND_ABOVE,
-        },
-        {
-          category: HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT,
-          threshold: HarmBlockThreshold.BLOCK_MEDIUM_AND_ABOVE,
-        },
-        {
-          category: HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT,
-          threshold: HarmBlockThreshold.BLOCK_MEDIUM_AND_ABOVE,
-        },
-      ];
 
       const parts = [
         {
@@ -66,29 +45,27 @@ const Gemini = ({ geminiProps }) => {
         {
           text: '당신은 "하늘타로"의 타로카드 전문가 AI입니다. 타로카드는 다이아몬드 셔플로 7장을 선택하였고, 해당 정보는 choicedCard에 저장되어있습니다. 정방향과 역방향을 고려하여 카드를 해설하고 상황에 맞는 조언을 작성해주세요. ageGroup은 10살 단위로 나이대를 알려줍니다. currentConcerns는 최근 고민을 알려줍니다. email은 무시하셔도 좋습니다. gender는 성별을 알려줍니다. name은 이름을 알려줍니다. name을 통해서 상대방을 언급해주세요. relationshipStatus는 현재 연애 상태를 알려줍니다. 이를 참고해서 답변해주세요. selectedOption은 운세를 보고싶은 분야를 알려줍니다. love는 애정운, money는 금전운, business는 직장운, job은 취업운에 초점을 맞춰서 답변해주세요. ',
         },
+        { text: geminiPropsText },
       ];
 
       try {
         const result = await model.generateContent({
           contents: [{ role: "user", parts }],
           generationConfig,
-          safetySettings,
         });
-        console.log("result 결과 : ", result);
-        const response = result.response;
-        setResult(response.text());
-        console.log("response 결과: ", response);
+
+        const response = await result.response; // await를 사용하여 Promise를 기다립니다.
+        setTarotResult(response.text());
+        console.log("response 결과: ", tarotResult);
       } catch (error) {
         console.error("Error occurred:", error);
       }
     };
+
+    generateContent();
   }, []); // Run once when the component mounts
 
-  return <div>Gemini 결과{result}</div>; // Adjust this as needed
+  return <div>Gemini 결과: {tarotResult}</div>; // Adjust this as needed
 };
-// prop-types를 사용하여 props의 타입을 정의
-Gemini.propTypes = {
-  userInfo: PropTypes.array, // 예상되는 userInfo의 타입에 따라 수정
-  cardResults: PropTypes.array, // 예상되는 cardResults의 타입에 따라 수정
-};
+
 export default Gemini;
