@@ -18,16 +18,16 @@ const StartTarot = () => {
 
       <div className="custom-button">
         {/* Link 컴포넌트를 사용하여 선택된 점괘에 대한 동적인 URL 생성 */}
-        <Link to="/tarot" onClick={() => handleOptionSelect("애정운")}>
+        <Link to="/tarot/love" onClick={() => handleOptionSelect("애정운")}>
           애정운
         </Link>
-        <Link to="/tarot" onClick={() => handleOptionSelect("금전운")}>
+        <Link to="/tarot/money" onClick={() => handleOptionSelect("금전운")}>
           금전운
         </Link>
-        <Link to="/tarot" onClick={() => handleOptionSelect("직장운")}>
+        <Link to="/tarot/business" onClick={() => handleOptionSelect("직장운")}>
           직장운
         </Link>
-        <Link to="/tarot" onClick={() => handleOptionSelect("취업운")}>
+        <Link to="/tarot/job" onClick={() => handleOptionSelect("취업운")}>
           취업운
         </Link>
       </div>

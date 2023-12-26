@@ -22,5 +22,4 @@ const database = getDatabase(
   "https://haneultarot-47911-default-rtdb.asia-southeast1.firebasedatabase.app/"
 );
 
-console.log("firebase.js: app, auth, database initialized", app);
 export { app, auth, database };

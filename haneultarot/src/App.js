@@ -17,7 +17,7 @@ function App() {
           <Route path="/hello" element={<HelloTarot />} />
           <Route path="/start" element={<StartTarot />} />
           <Route path="/mypage" element={<MyPage />} />
-          <Route path="/tarot" element={<TarotPage />} />
+          <Route path="/tarot/:option" element={<TarotPage />} />
         </Routes>
       </div>
     </AuthProvider>

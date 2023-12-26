@@ -1,6 +1,6 @@
 import React from "react";
-import NextBtn from "../img/next_button.svg";
-import PrevBtn from "../img/prev_button.svg";
+import NextBtn from "../images/next_button.svg";
+import PrevBtn from "../images/prev_button.svg";
 import PropTypes from "prop-types";
 // MoveBtn 컴포넌트에서 onClick 추가
 const MoveBtn = ({ currentPage, maxPage, onClick }) => {
