@@ -1,10 +1,12 @@
+/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from "react";
 import TarotDeckJson from "./tarot_deck.json";
-import CardBack from "../images/cards/back.svg";
 import CardResult from "../components/CardResult";
+import Cards from "./Cards";
 import { format } from "date-fns"; // 추가
 import { writeUserData } from "../api/UserDataService"; // 추가
 import { useAuth } from "../api/AuthContext.js";
+import PickedCards from "./PickedCards.js";
 
 const shuffleCards = (cards) => {
   // 카드를 섞는 함수
@@ -33,9 +35,13 @@ const CardPick = () => {
   const [shuffledDeck, setShuffledDeck] = useState([]);
   const [choicedDeck, setChoicedDeck] = useState([]);
   const [uid, setUid] = useState(""); // 추가
+  const [initialShuffledDeck, setInitialShuffledDeck] = useState([]); // 추가
+
   useEffect(() => {
     // 컴포넌트가 처음 마운트될 때 덱을 섞음
-    setShuffledDeck(shuffleCards(TarotDeckJson.tarot_deck));
+    const initialDeck = shuffleCards(TarotDeckJson.tarot_deck);
+    setInitialShuffledDeck(initialDeck);
+    setShuffledDeck(initialDeck);
     try {
       if (user.uid) {
         setUid(user.uid);
@@ -43,18 +49,25 @@ const CardPick = () => {
     } catch (error) {
       console.error("user.uid 로딩 오류", error);
     }
-  }, []);
+  }, [user.uid]);
 
-  const drawCard = () => {
-    // 클릭한 div의 인덱스에 해당하는 카드를 choicedDeck에 추가하고, choiced 속성을 true로 변경
-    if (shuffledDeck.length > 0 && choicedDeck.length < 7) {
-      const [drawnCard, ...remainingDeck] = shuffledDeck;
+  const drawCard = (clickedIndex) => {
+    if (choicedDeck.length < 7) {
+      // 클릭한 카드의 정보 가져오기
+      const drawnCard = shuffledDeck[clickedIndex];
+
+      // 클릭한 카드를 choicedDeck에 추가
       setChoicedDeck([...choicedDeck, { ...drawnCard, choiced: true }]);
-      setShuffledDeck(remainingDeck);
+
+      // 클릭한 카드를 shuffledDeck에서 제거
+      setShuffledDeck((prevDeck) =>
+        prevDeck.filter((card, index) => index !== clickedIndex)
+      );
     } else {
-      alert("카드를 더 이상 뽑을 수 없습니다.");
+      // alert("카드를 더 이상 뽑을 수 없습니다.");
     }
   };
+
   useEffect(() => {
     if (choicedDeck.length === 7) {
       // 오늘 날짜 구하기
@@ -68,56 +81,34 @@ const CardPick = () => {
         console.error("뽑은 카드 저장 오류", error);
       }
     }
-  }, [choicedDeck, uid]);
+  }, [choicedDeck]);
 
   return (
     <div>
       <h2>Tarot Card Shuffle</h2>
       {choicedDeck.length === 7 ? (
-        <CardResult choicedDeck={choicedDeck} />
+        <div className="tarot-result">
+          <PickedCards choicedDeck={choicedDeck} />
+          <CardResult choicedDeck={choicedDeck} />
+        </div>
       ) : (
         <div>
           <div className="card-container">
-            {shuffledDeck.map((card, index) => (
-              <div
-                key={index}
-                className="card"
-                style={{
-                  backgroundImage: `url(${CardBack})`,
-                  backgroundSize: "cover",
-                  width: "200px",
-                  height: "300px",
-                  cursor: "pointer",
-                }}
-                onClick={() => drawCard(index)}
-              ></div>
-            ))}
-          </div>
-          <div className="choiced-container">
-            {choicedDeck.map((card, index) => (
-              <div
-                key={index}
-                className="choiced-card"
-                style={{
-                  background: "red",
-                  backgroundSize: "cover",
-                  width: "200px",
-                  height: "300px",
-                }}
-              >
-                {card.choiced && (
-                  <div
-                    className="choiced-card"
-                    style={{ transform: card.front ? 0 : 180 }}
-                  >
-                    <div className="card-name">{card.name}</div>
-                    <div className="card-front">
-                      카드방향: {card.front ? "앞면" : "뒷면"}{" "}
-                    </div>
-                  </div>
-                )}
-              </div>
-            ))}
+            <div
+              className="card-wrapper"
+              style={{
+                transform: `translateX(${-choicedDeck.length * 106}px)`,
+                transition: `all 0.3s linear`,
+              }}
+            >
+              {shuffledDeck.map((card, index) => (
+                <Cards
+                  key={index}
+                  index={shuffledDeck.indexOf(card)}
+                  drawCard={drawCard}
+                />
+              ))}
+            </div>
           </div>
         </div>
       )}

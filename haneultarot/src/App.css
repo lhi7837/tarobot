@@ -1,5 +1,6 @@
-* {
+html {
   font-family: "Cafe24Ohsquareair";
+  font-size: 20px;
 }
 @font-face {
   font-family: "Cafe24Ohsquareair";
@@ -29,6 +30,7 @@ textarea {
     radial-gradient(circle 2000px at top right, #edf1f6, transparent),
     radial-gradient(circle 500px at bottom left, #f2f0de, transparent),
     radial-gradient(circle 400px at bottom right, #d0e3ff, transparent);
+  min-height: 100vh;
   text-align: center;
 }
 
@@ -38,6 +40,7 @@ textarea {
 }
 .main_logo {
   width: 8rem;
+  margin: 2rem;
 }
 .main_title {
   font-size: 48px;
@@ -106,20 +109,31 @@ textarea {
 }
 
 .card-container {
-  display: flex;
-}
-.cardss-container .card {
-  position: relative;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  margin: 10px;
-  width: 20px;
-  height: 30px;
-  box-shadow: 0px 10px 15px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease-in-out;
+  display: inline-flex;
+  overflow: hidden;
+  width: 100%;
   cursor: pointer;
 }
+.card-container .card-wrapper {
+  display: inline-flex;
+}
+.card-container .card {
+  width: 173px;
+  height: 312px;
+  flex-shrink: 0;
+  margin: 1rem;
+  box-shadow: 2px 4px 5px rgba(0, 0, 0, 0.25);
+}
+.card-container .card:hover {
+  transform: scale(1.03) translateY(-5%);
+  transition: all 0.3s ease-in-out;
+}
+
 .choiced-container {
   display: flex;
+}
+
+.loading {
+  margin: 5rem;
+  font-size: 2rem;
 }

@@ -5,12 +5,14 @@ import HelloTarot from "./components/Splash";
 import StartTarot from "./pages/StartTarot";
 import MyPage from "./pages/MyPage";
 import TarotPage from "./pages/TarotPage.js";
+import Header from "./components/Header.js";
 import "./App.css";
 import { AuthProvider } from "./api/AuthContext";
 
 function App() {
   return (
     <AuthProvider>
+      <Header />
       <div className="Tarobot">
         <Routes>
           <Route path="/" element={<TarotTitle />} />

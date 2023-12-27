@@ -22,11 +22,13 @@ const CardResult = () => {
 
   return (
     <div>
-      {userInfo ? (
-        <Gemini geminiProps={userInfo} />
-      ) : (
-        <p>Loading user information...</p>
-      )}
+      <div className="gemini-result">
+        {userInfo ? (
+          <Gemini geminiProps={userInfo} />
+        ) : (
+          <p>Loading user information...</p>
+        )}
+      </div>
     </div>
   );
 };
