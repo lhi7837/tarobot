@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
@@ -31,21 +32,6 @@ const StartTarot = () => {
           취업운
         </Link>
       </div>
-
-      {showCard && (
-        <div className="card-image-container">
-          {/* 여기에 선택된 옵션에 맞는 카드 이미지를 보여주는 로직을 추가하세요. */}
-          <img
-            src={`images/${selectedOption}.jpg`}
-            alt={`${selectedOption} 카드`}
-          />
-        </div>
-      )}
-
-      {/* 오늘의 카드 버튼은 사용하지 않으므로 주석 처리 */}
-      {/* <button onClick={handleShowTodayCard}>오늘의 카드</button> */}
-      {/* 마이페이지로 이동하는 Link 추가 */}
-      <Link to="/mypage">마이페이지</Link>
     </div>
   );
 };

@@ -7,9 +7,7 @@ function GoogleLogin() {
   const authUser = useAuth();
   function handleGoogleLogin() {
     signInWithPopup(auth, new GoogleAuthProvider()) // popup을 이용한 signup
-      .then((data) => {
-        console.log(data); // console로 들어온 데이터 표시
-      })
+      .then(() => {})
       .catch((err) => {
         console.log(err);
       });

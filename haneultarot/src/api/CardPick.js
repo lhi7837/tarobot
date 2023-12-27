@@ -4,9 +4,10 @@ import TarotDeckJson from "./tarot_deck.json";
 import CardResult from "../components/CardResult";
 import Cards from "./Cards";
 import { format } from "date-fns"; // 추가
-import { writeUserData } from "../api/UserDataService"; // 추가
+import { writeTarotData } from "../api/UserDataService"; // 추가
 import { useAuth } from "../api/AuthContext.js";
 import PickedCards from "./PickedCards.js";
+import { useParams } from "react-router-dom"; // useParams 추가
 
 const shuffleCards = (cards) => {
   // 카드를 섞는 함수
@@ -31,6 +32,7 @@ const shuffleCards = (cards) => {
 };
 
 const CardPick = () => {
+  const { option } = useParams(); // useParams로 URL 파라미터 읽어오기
   const user = useAuth();
   const [shuffledDeck, setShuffledDeck] = useState([]);
   const [choicedDeck, setChoicedDeck] = useState([]);
@@ -73,23 +75,24 @@ const CardPick = () => {
       // 오늘 날짜 구하기
       const todayDate = format(new Date(), "yyyyMMdd");
 
-      // uid/"오늘날짜"/ 경로에 데이터 저장
-      const path = `${uid}/${todayDate}`;
+      // uid/"option_오늘날짜"/ 경로에 데이터 저장
+      const userId = `${uid}/${option}_${todayDate}`;
+
       try {
-        writeUserData(path, choicedDeck);
+        // choicedDeck 저장
+        writeTarotData(userId, choicedDeck, option);
       } catch (error) {
         console.error("뽑은 카드 저장 오류", error);
       }
     }
-  }, [choicedDeck]);
+  }, [choicedDeck, uid, option]);
 
   return (
     <div>
-      <h2>Tarot Card Shuffle</h2>
       {choicedDeck.length === 7 ? (
         <div className="tarot-result">
-          <PickedCards choicedDeck={choicedDeck} />
           <CardResult choicedDeck={choicedDeck} />
+          <PickedCards choicedDeck={choicedDeck} />
         </div>
       ) : (
         <div>
