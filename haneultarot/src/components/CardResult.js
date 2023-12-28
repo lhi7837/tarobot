@@ -37,14 +37,14 @@ const CardResult = ({ result, choicedDeck }) => {
   }, [user]);
 
   return (
-    <div>
+    <div className="tarot-result-page">
       <h1>전체 카드 리딩</h1>
       <h2>뽑으신 카드를 바탕으로 오늘의 운세를 리딩해드리겠습니다.</h2>
       <div className="gemini-result">
         {result ? (
           // result가 문자열이라면 그대로 전달
-          <div>
-            <h2>*오늘의 결과가 있어 불러옵니다.*</h2>
+          <div className="gemini-result-inner">
+            <div className="was-result">[이미 존재하는 결과를 불러옵니다.]</div>
             <div dangerouslySetInnerHTML={{ __html: result }}></div>
           </div>
         ) : geminiProps ? (

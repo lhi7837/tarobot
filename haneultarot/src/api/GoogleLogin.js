@@ -21,7 +21,11 @@ function GoogleLogin() {
         </div>
       ) : (
         <div onClick={handleGoogleLogin} className="loginBtn">
-          구글 Login
+          <img
+            src="images/google.svg"
+            style={{ width: "1.5rem", display: "flex" }}
+          />{" "}
+          &nbsp; 로그인
         </div>
       )}
     </div>

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import mainLogo from "../images/main_logo.svg";
+import mainLogo from "../images/ico.svg";
 import GoogleLogin from "../api/GoogleLogin";
 import { Link } from "react-router-dom";
 import { useAuth } from "../api/AuthContext";
@@ -26,10 +26,10 @@ const TarotTitle = () => {
       // fetchData 함수 호출
       fetchData();
     }
-  }, [authUser, userId]);
+  }, [userId, emailExists]);
 
   return (
-    <div>
+    <div className="title-page">
       <div className="title">
         <img className="main_logo" alt="sun1 with sky" src={mainLogo} />
         <h1 className="main_title">하늘타로</h1>
@@ -39,7 +39,7 @@ const TarotTitle = () => {
           {emailExists ? (
             <Link to="/start">바로 시작하기</Link>
           ) : (
-            <GoogleLogin />
+            "상단 Google 로그인 버튼을 통해 로그인하셔야 시작이 가능합니다."
           )}
         </div>
       </div>

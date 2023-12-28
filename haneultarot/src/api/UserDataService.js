@@ -116,7 +116,6 @@ const readUserDataExceptUserInfo = (userId) => {
       const data = dataSnapshot.val();
       // 'userInfo'를 제외한 데이터만 선택
       const { userInfo, ...otherData } = data;
-      console.log("#######otherData#######", otherData);
       return otherData;
     })
     .catch((error) => {

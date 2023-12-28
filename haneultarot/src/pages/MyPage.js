@@ -27,10 +27,10 @@ const MyPage = () => {
       ) : (
         <div>
           <h1>마이페이지</h1>
-          <h3>
+          <h2>
             안녕하세요. {authUser != null ? authUser.email : "사용자"}님. 무슨
             일로 하늘타로를 찾아주셨나요?
-          </h3>
+          </h2>
           <div className="user-info">
             <ul className="custom-button">
               <li>

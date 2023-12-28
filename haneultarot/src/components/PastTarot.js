@@ -2,13 +2,16 @@
 import React, { useState, useEffect } from "react";
 import { readUserDataExceptUserInfo } from "../api/UserDataService";
 import { useAuth } from "../api/AuthContext.js";
-
+import PickedCards from "../api/PickedCards.js";
 const PastTarot = () => {
   const [tarotData, setTarotData] = useState([]);
   const [selectedOption, setSelectedOption] = useState(null);
   const [selectedDate, setSelectedDate] = useState(null);
   const authUser = useAuth();
   const [isSetTarotData, setIsSetTarotData] = useState(false);
+  const [isCategoryOpen, setIsCategoryOpen] = useState(false); // 대분류(운세 종류)의 열림 여부
+  const [isDateOpen, setIsDateOpen] = useState(false); // 소분류(날짜)의 열림 여부
+
   useEffect(() => {
     // Firebase에서 데이터를 가져오는 함수
     const fetchData = async () => {
@@ -35,17 +38,21 @@ const PastTarot = () => {
     fetchData();
   }, []);
 
-  const handleOptionClick = (option) => {
-    // 대분류(운세 종류)를 클릭했을 때 호출되는 함수
-    setSelectedOption(option);
+  const handleCategoryClick = (category) => {
+    setSelectedOption((prev) => (prev === category ? null : category));
     setSelectedDate(null);
+    setIsCategoryOpen((prev) => !prev); // 토글
+    setIsDateOpen(false); // 날짜 닫기
   };
 
   const handleDateClick = (date) => {
-    // 소분류(날짜)를 클릭했을 때 호출되는 함수
-    setSelectedDate(date);
+    setSelectedDate((prev) => (prev === date ? null : date));
+    setIsDateOpen((prev) => !prev); // 토글
   };
-
+  const callPickedCards = (dateDetails) => {
+    const pickedCards = dateDetails.cards; // dateDetails.cards를 변수에 저장
+    return <PickedCards choicedDeck={pickedCards} />;
+  };
   return (
     <div className="tarot-page-container">
       <h1>내 과거 타로 보기</h1>
@@ -57,24 +64,43 @@ const PastTarot = () => {
           return Object.entries(categoryData).map(
             ([category, categoryDetails]) => (
               <div key={category}>
-                <h2>{category} 운세</h2>
-                {Object.entries(categoryDetails).map(([date, dateDetails]) => (
-                  <div key={date}>
-                    <h3>{date} 운세</h3>
-                    {/* dateDetails에는 cards와 result 등이 있으므로 원하는대로 활용 */}
-                    <ul>
-                      {dateDetails.cards.map((card) => (
-                        <li key={card.id}>
-                          {card.name} - {card.type}
-                          {card.front ? "(정방향)" : "(역방향)"}
-                        </li>
-                      ))}
-                    </ul>
-                    <div
-                      dangerouslySetInnerHTML={{ __html: dateDetails.result }}
-                    />
-                  </div>
-                ))}
+                <h2
+                  className="lv1-category"
+                  onClick={() => handleCategoryClick(category)}
+                >
+                  {category === "love" && "애정운"}
+                  {category === "money" && "금전운"}
+                  {category === "business" && "직장운"}
+                  {category === "job" && "취업운"}
+                </h2>
+                {selectedOption === category && (
+                  <>
+                    {Object.entries(categoryDetails).map(
+                      ([date, dateDetails]) => (
+                        <div key={date}>
+                          <h3
+                            className="lv2-date"
+                            onClick={() => handleDateClick(date)}
+                          >
+                            {date} 일자 결과
+                          </h3>
+                          {/* dateDetails에는 cards와 result 등이 있으므로 원하는대로 활용 */}
+                          {selectedDate === date && (
+                            <>
+                              {callPickedCards(dateDetails)}
+                              <div
+                                className="gemini-result"
+                                dangerouslySetInnerHTML={{
+                                  __html: dateDetails.result,
+                                }}
+                              />
+                            </>
+                          )}
+                        </div>
+                      )
+                    )}
+                  </>
+                )}
               </div>
             )
           );

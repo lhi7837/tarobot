@@ -1,6 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../api/AuthContext";
+import { auth } from "../firebase.js";
+import GoogleLogin from "../api/GoogleLogin";
 const Header = () => {
   const authUser = useAuth();
 
@@ -22,15 +24,16 @@ const Header = () => {
             <li>
               <Link to="/mypage">My Page</Link>
             </li>
-            <li>
-              <a onClick={() => window.history.back()}>Back</a>
-            </li>
             {authUser ? (
               <li>
-                <a onClick={() => useAuth.signOut()}>로그아웃</a>
+                <a onClick={() => auth.signOut()}>로그아웃</a>
               </li>
             ) : (
-              <li>구글로그인필요</li>
+              <li>
+                <a>
+                  <GoogleLogin />
+                </a>
+              </li>
             )}
           </ul>
         </nav>

@@ -115,10 +115,6 @@ const CardPick = () => {
           ) : (
             // choicedDeck의 길이가 7이 아닐 때의 렌더링
             <div>
-              <div>
-                <h3>현재 선택한 카드 개수</h3>
-                가나다라마바사asdasd
-              </div>
               <ScrollContainer
                 className="scroll-container card-container"
                 hideScrollbars="false"
@@ -138,6 +134,10 @@ const CardPick = () => {
                   ))}
                 </div>
               </ScrollContainer>
+              <div>
+                <h3>현재 선택한 카드 개수</h3>
+                {choicedDeck.length} / 7
+              </div>
             </div>
           )}
         </div>

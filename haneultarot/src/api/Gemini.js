@@ -92,10 +92,9 @@ const Gemini = ({ geminiProps }) => {
       ) : error ? (
         <div>오류가 발생했습니다. 다시 시도해주세요.</div>
       ) : (
-        <div
-          className="gemini-result"
-          dangerouslySetInnerHTML={{ __html: tarotResult }}
-        ></div>
+        <div className="gemini-result-inner">
+          <div dangerouslySetInnerHTML={{ __html: tarotResult }}></div>
+        </div>
       )}
     </div>
   ); // Adjust this as needed
