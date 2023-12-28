@@ -1,24 +1,32 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable react/prop-types */
 import React, { useEffect, useState } from "react";
 import Gemini from "../api/Gemini";
 import { readUserDataOnce } from "../api/UserDataService";
 import { useAuth } from "../api/AuthContext";
 import { useParams } from "react-router-dom"; // useParams 추가
 
-const CardResult = () => {
+// CardResult 컴포넌트에서 result를 받을 때 result 속성을 직접 추출하여 사용
+const CardResult = ({ result, choicedDeck }) => {
   const [userInfo, setUserInfo] = useState(null);
-  const user = useAuth(); // useAuth() 함수 호출을 통해 사용자 정보를 얻습니다.
-  const { option } = useParams(); // useParams로 URL 파라미터 읽어오기
+  const user = useAuth();
+  const { option } = useParams();
 
   useEffect(() => {
     const fetchUserInfo = async () => {
       try {
-        const { todayData, userInfo } = await readUserDataOnce(
-          user.uid,
-          option
-        );
-        const userData = { todayData, userInfo };
-        console.log("userData:", userData);
-        setUserInfo(userData);
+        if (choicedDeck) {
+          // 만약 choicedDeck이 전달되면 setUserInfo 실행
+          setUserInfo(choicedDeck);
+        } else if (result) {
+          // 만약 choicedDeck이 없고 result 존재하면 유저 정보를 불러오기
+          const { todayData, userInfo } = await readUserDataOnce(
+            user.uid,
+            option
+          );
+          const userData = { todayData, userInfo };
+          setUserInfo(userData);
+        }
       } catch (error) {
         console.error("유저 정보 불러오기 에러:", error);
       }
@@ -30,9 +38,15 @@ const CardResult = () => {
   return (
     <div>
       <h1>전체 카드 리딩</h1>
-      <h2>오늘 뽑으신 카드를 리딩해드리겠습니다.</h2>
+      <h2>뽑으신 카드를 바탕으로 오늘의 운세를 리딩해드리겠습니다.</h2>
       <div className="gemini-result">
-        {userInfo ? (
+        {result ? (
+          // result가 문자열이라면 그대로 전달
+          <div>
+            <h2>*오늘의 결과가 있어 불러옵니다.</h2>
+            <div dangerouslySetInnerHTML={{ __html: result }}></div>
+          </div>
+        ) : userInfo ? (
           <Gemini geminiProps={userInfo} />
         ) : (
           <p>Loading user information...</p>

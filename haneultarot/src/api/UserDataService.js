@@ -15,34 +15,56 @@ const writeUserData = (userId, data) => {
   return set(userRef, data);
 };
 
-const writeTarotData = (userId, data, option) => {
+const writeTarotData = (userId, option, pickedCards) => {
   const todayDate = getTodayDate();
-  const userRef = ref(database, `users/${userId}/${option}_${todayDate}`);
-  return set(userRef, data);
+  const cardsPath = `${option}_${todayDate}/cards`;
+  const userCardsRef = ref(database, `users/${userId}/${cardsPath}`);
+
+  return set(userCardsRef, pickedCards)
+    .then(() => {
+      console.log("뽑은 카드 저장 완료 :", pickedCards);
+    })
+    .catch((error) => {
+      console.error("뽑은 카드 저장 실패:", error);
+    });
 };
 
-const wrtieTarotResultData = (userId, data, option) => {
+const wrtieTarotResultData = (userId, option, tarotResult) => {
   const todayDate = getTodayDate();
-  const userRef = ref(
-    database,
-    `users/${userId}/${option}_${todayDate}/result`
-  );
-  return set(userRef, data);
+  const resultsPath = `${option}_${todayDate}/result`;
+  const userResultsRef = ref(database, `users/${userId}/${resultsPath}`);
+  console.log("1. 저장할 데이터 userid :", userId);
+  console.log("2. 저장할 데이터 option :", option);
+  console.log("3. 저장할 데이터 tarotResult :", tarotResult);
+  return set(userResultsRef, tarotResult)
+    .then(() => {
+      console.log("타로 결과 저장 완료");
+    })
+    .catch((error) => {
+      console.error("타로 결과 저장 실패:", error);
+    });
 };
 
 const readTarotResultData = (userId, option) => {
   const todayDate = getTodayDate();
-  const userRef = ref(
-    database,
-    `users/${userId}/${option}_${todayDate}/result`
-  );
+  const dataPath = `${option}_${todayDate}`;
+  const userRef = ref(database, `users/${userId}/${dataPath}`);
+
   return get(userRef)
     .then((dataSnapshot) => {
-      const resultData = dataSnapshot.val();
-      return resultData;
+      const resultData = dataSnapshot.val()?.result;
+      const cardsData = dataSnapshot.val()?.cards;
+      return { resultData, cardsData };
     })
     .catch((error) => {
-      console.error("Error reading data from Firebase:", error);
+      // 해당 경로에 값이 존재하지 않는 경우에 대한 처리
+      if (error.code === "PERMISSION_DENIED") {
+        console.error("Permission denied. The data may not exist.");
+        return null;
+      } else {
+        console.error("Error reading data from Firebase:", error);
+        throw error; // 다른 예외는 다시 던집니다.
+      }
     });
 };
 
