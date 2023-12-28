@@ -17,13 +17,12 @@ function GoogleLogin() {
     <div>
       {authUser ? (
         <div>
-          <p>{authUser.email + "님 환영합니다."}</p>
-          <button onClick={() => auth.signOut()}>로그아웃</button>
+          <div className="loginState">{authUser.email + "님 환영합니다."}</div>
         </div>
       ) : (
-        <button onClick={handleGoogleLogin} className="loginBtn">
+        <div onClick={handleGoogleLogin} className="loginBtn">
           구글 Login
-        </button>
+        </div>
       )}
     </div>
   );

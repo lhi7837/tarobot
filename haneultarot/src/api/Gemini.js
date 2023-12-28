@@ -11,7 +11,7 @@ import { database } from "../firebase.js";
 const MODEL_NAME = "gemini-pro";
 const API_KEY = process.env.REACT_APP_GOOGLE_GEMINI_API_KEY;
 const saveTarotResult = async (userId, option, todayDate, tarotResult) => {
-  const resultsPath = `${option}_${todayDate}/results`;
+  const resultsPath = `${option}/${todayDate}/results`;
   const userResultsRef = ref(database, `users/${userId}/${resultsPath}`);
 
   try {
@@ -74,7 +74,7 @@ const Gemini = ({ geminiProps }) => {
         const response = await result.response; // await를 사용하여 Promise를 기다립니다.
         setTarotResult(response.text());
         wrtieTarotResultData(user.uid, option, response.text());
-        console.log("Gemini 실행됨");
+        console.log("Gemini 실행됨", option, geminiPropsText);
       } catch (error) {
         setError(error);
         console.error("Error occurred:", error);

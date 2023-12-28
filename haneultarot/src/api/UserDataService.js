@@ -17,7 +17,7 @@ const writeUserData = (userId, data) => {
 
 const writeTarotData = (userId, option, pickedCards) => {
   const todayDate = getTodayDate();
-  const cardsPath = `${option}_${todayDate}/cards`;
+  const cardsPath = `${option}/${todayDate}/cards`;
   const userCardsRef = ref(database, `users/${userId}/${cardsPath}`);
 
   return set(userCardsRef, pickedCards)
@@ -31,11 +31,8 @@ const writeTarotData = (userId, option, pickedCards) => {
 
 const wrtieTarotResultData = (userId, option, tarotResult) => {
   const todayDate = getTodayDate();
-  const resultsPath = `${option}_${todayDate}/result`;
+  const resultsPath = `${option}/${todayDate}/result`;
   const userResultsRef = ref(database, `users/${userId}/${resultsPath}`);
-  console.log("1. 저장할 데이터 userid :", userId);
-  console.log("2. 저장할 데이터 option :", option);
-  console.log("3. 저장할 데이터 tarotResult :", tarotResult);
   return set(userResultsRef, tarotResult)
     .then(() => {
       console.log("타로 결과 저장 완료");
@@ -47,7 +44,7 @@ const wrtieTarotResultData = (userId, option, tarotResult) => {
 
 const readTarotResultData = (userId, option) => {
   const todayDate = getTodayDate();
-  const dataPath = `${option}_${todayDate}`;
+  const dataPath = `${option}/${todayDate}`;
   const userRef = ref(database, `users/${userId}/${dataPath}`);
 
   return get(userRef)
@@ -72,7 +69,7 @@ const readUserDataOnce = (userId, option = null) => {
   const todayDate = getTodayDate();
 
   if (option) {
-    const dataPath = `${option}_${todayDate}`;
+    const dataPath = `${option}/${todayDate}`;
     const userRef = ref(database, `users/${userId}/${dataPath}`);
 
     return get(userRef)
@@ -111,6 +108,29 @@ const readUserDataRealtime = (userId, callback) => {
   });
 };
 
+const readUserDataExceptUserInfo = (userId) => {
+  const userRef = ref(database, `users/${userId}`);
+
+  return get(userRef)
+    .then((dataSnapshot) => {
+      const data = dataSnapshot.val();
+      // 'userInfo'를 제외한 데이터만 선택
+      const { userInfo, ...otherData } = data;
+      console.log("#######otherData#######", otherData);
+      return otherData;
+    })
+    .catch((error) => {
+      // 오류 처리
+      if (error.code === "PERMISSION_DENIED") {
+        console.error("Permission denied. The data may not exist.");
+        return null;
+      } else {
+        console.error("Error reading data from Firebase:", error);
+        throw error;
+      }
+    });
+};
+
 const dataSubmit = (currentPage, maxPage, userId, formData) => {
   if (currentPage === maxPage) {
     writeUserData(userId, formData)
@@ -131,6 +151,7 @@ export {
   writeTarotData,
   wrtieTarotResultData,
   readTarotResultData,
+  readUserDataExceptUserInfo,
   app,
   auth,
 };

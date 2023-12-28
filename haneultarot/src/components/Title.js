@@ -37,15 +37,10 @@ const TarotTitle = () => {
       <div className="userInfoSubmit">
         <div className="custom-button">
           {emailExists ? (
-            <div>
-              <Link to="/start">바로 시작하기</Link>
-            </div>
+            <Link to="/start">바로 시작하기</Link>
           ) : (
-            <div>
-              <Link to="/hello">시작하기</Link>
-            </div>
+            <GoogleLogin />
           )}
-          <GoogleLogin />
         </div>
       </div>
     </div>

@@ -8,24 +8,25 @@ import { useParams } from "react-router-dom"; // useParams 추가
 
 // CardResult 컴포넌트에서 result를 받을 때 result 속성을 직접 추출하여 사용
 const CardResult = ({ result, choicedDeck }) => {
-  const [userInfo, setUserInfo] = useState(null);
+  const [geminiProps, setGeminiProps] = useState(null);
   const user = useAuth();
   const { option } = useParams();
 
   useEffect(() => {
     const fetchUserInfo = async () => {
       try {
+        // 만약 choicedDeck이 없고 result 존재하면 유저 정보를 불러오기
+        const { todayData, userInfo } = await readUserDataOnce(
+          user.uid,
+          option
+        );
         if (choicedDeck) {
-          // 만약 choicedDeck이 전달되면 setUserInfo 실행
-          setUserInfo(choicedDeck);
+          // 만약 choicedDeck이 전달되면 실행
+          const userData = { choicedDeck, userInfo };
+          setGeminiProps(userData);
         } else if (result) {
-          // 만약 choicedDeck이 없고 result 존재하면 유저 정보를 불러오기
-          const { todayData, userInfo } = await readUserDataOnce(
-            user.uid,
-            option
-          );
           const userData = { todayData, userInfo };
-          setUserInfo(userData);
+          setGeminiProps(userData);
         }
       } catch (error) {
         console.error("유저 정보 불러오기 에러:", error);
@@ -33,6 +34,7 @@ const CardResult = ({ result, choicedDeck }) => {
     };
 
     fetchUserInfo();
+    console.log("뽑아서 잼민이 보낼 정보 :::::", geminiProps);
   }, [user]);
 
   return (
@@ -46,8 +48,8 @@ const CardResult = ({ result, choicedDeck }) => {
             <h2>*오늘의 결과가 있어 불러옵니다.</h2>
             <div dangerouslySetInnerHTML={{ __html: result }}></div>
           </div>
-        ) : userInfo ? (
-          <Gemini geminiProps={userInfo} />
+        ) : geminiProps ? (
+          <Gemini geminiProps={geminiProps} />
         ) : (
           <p>Loading user information...</p>
         )}
