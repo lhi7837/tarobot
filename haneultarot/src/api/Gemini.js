@@ -74,7 +74,6 @@ const Gemini = ({ geminiProps }) => {
         const response = await result.response; // await를 사용하여 Promise를 기다립니다.
         setTarotResult(response.text());
         wrtieTarotResultData(user.uid, option, response.text());
-        console.log("Gemini 실행됨", option, geminiPropsText);
       } catch (error) {
         setError(error);
         console.error("Error occurred:", error);

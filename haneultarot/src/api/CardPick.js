@@ -3,11 +3,11 @@ import React, { useState, useEffect } from "react";
 import TarotDeckJson from "./tarot_deck.json";
 import CardResult from "../components/CardResult";
 import Cards from "./Cards";
-import { format } from "date-fns";
 import { writeTarotData, readTarotResultData } from "../api/UserDataService";
 import { useAuth } from "../api/AuthContext.js";
 import PickedCards from "./PickedCards.js";
 import { useParams } from "react-router-dom";
+import ScrollContainer from "react-indiana-drag-scroll";
 
 const shuffleCards = (cards) => {
   let shuffledCards = [...cards];
@@ -114,22 +114,30 @@ const CardPick = () => {
             </div>
           ) : (
             // choicedDeck의 길이가 7이 아닐 때의 렌더링
-            <div className="card-container">
-              <div
-                className="card-wrapper"
-                style={{
-                  transform: `translateX(${-choicedDeck.length * 106}px)`,
-                  transition: `all 0.3s linear`,
-                }}
-              >
-                {shuffledDeck.map((card, index) => (
-                  <Cards
-                    key={index}
-                    index={shuffledDeck.indexOf(card)}
-                    drawCard={drawCard}
-                  />
-                ))}
+            <div>
+              <div>
+                <h3>현재 선택한 카드 개수</h3>
+                가나다라마바사asdasd
               </div>
+              <ScrollContainer
+                className="scroll-container card-container"
+                hideScrollbars="false"
+              >
+                <div
+                  className="card-wrapper"
+                  style={{
+                    transition: `all 0.3s linear`,
+                  }}
+                >
+                  {shuffledDeck.map((card, index) => (
+                    <Cards
+                      key={index}
+                      index={shuffledDeck.indexOf(card)}
+                      drawCard={drawCard}
+                    />
+                  ))}
+                </div>
+              </ScrollContainer>
             </div>
           )}
         </div>

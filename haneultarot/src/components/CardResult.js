@@ -34,7 +34,6 @@ const CardResult = ({ result, choicedDeck }) => {
     };
 
     fetchUserInfo();
-    console.log("뽑아서 잼민이 보낼 정보 :::::", geminiProps);
   }, [user]);
 
   return (
@@ -45,7 +44,7 @@ const CardResult = ({ result, choicedDeck }) => {
         {result ? (
           // result가 문자열이라면 그대로 전달
           <div>
-            <h2>*오늘의 결과가 있어 불러옵니다.</h2>
+            <h2>*오늘의 결과가 있어 불러옵니다.*</h2>
             <div dangerouslySetInnerHTML={{ __html: result }}></div>
           </div>
         ) : geminiProps ? (
