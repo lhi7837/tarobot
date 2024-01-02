@@ -44,13 +44,13 @@ const TarotDataInput = () => {
 
   return (
     <div>
-      <div style={{ textAlign: "center" }}>
-        <p>{`${currentPage}/${maxPageNumber}`}</p>
+      <div className="paging-number">
+        <h3>{`${currentPage}/${maxPageNumber}`}</h3>
       </div>
-      <div style={{ textAlign: "center", margin: "20px" }}>
+      <div className="userinfo-container">
         {currentPage === 1 && (
           <div>
-            <p>당신의 이름을 알려주세요.</p>
+            <h2>당신의 이름을 알려주세요.</h2>
             <input
               type="text"
               value={formData.name}
@@ -60,7 +60,7 @@ const TarotDataInput = () => {
         )}
         {currentPage === 2 && (
           <div>
-            <p>성별을 선택해주세요.</p>
+            <h2>성별을 선택해주세요.</h2>
             <label>
               <input
                 type="radio"
@@ -92,7 +92,7 @@ const TarotDataInput = () => {
         )}
         {currentPage === 3 && (
           <div>
-            <p>연인 여부를 선택해주세요.</p>
+            <h2>연인 여부를 선택해주세요.</h2>
             <label>
               <input
                 type="radio"
@@ -132,7 +132,7 @@ const TarotDataInput = () => {
         )}
         {currentPage === 4 && (
           <div>
-            <p>연령대를 선택해주세요.</p>
+            <h2>연령대를 선택해주세요.</h2>
             <select
               value={formData.ageGroup}
               onChange={(e) => handleInputChange("ageGroup", e.target.value)}
@@ -151,7 +151,7 @@ const TarotDataInput = () => {
 
         {currentPage === 5 && (
           <div className="user-data-form">
-            <p>요즘의 고민을 입력하세요.</p>
+            <h2>요즘의 고민을 입력하세요.</h2>
             <textarea
               style={{ width: "50%", height: "150px" }}
               value={formData.currentConcerns}

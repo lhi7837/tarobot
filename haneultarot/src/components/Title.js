@@ -11,33 +11,41 @@ const TarotTitle = () => {
   const userId = authUser?.uid;
 
   useEffect(() => {
-    // authUser가 존재하고, email이 존재하는 경우에만 RTDB를 확인
+    // authUser의 email이 존재하는 경우에만 RTDB를 확인
     if (authUser && authUser.email) {
       const fetchData = async () => {
         try {
           const { userInfo } = await readUserDataOnce(userId);
-          // userData가 존재하는 경우 email이 존재하는 것으로 간주
-          setEmailExists(!!userInfo?.email);
+          // userData가 존재하고 email이 존재하는 경우
+          if (userInfo && userInfo.email) {
+            setEmailExists(true);
+          } else {
+            // userData가 존재하지 않거나 email이 존재하지 않는 경우
+            setEmailExists(false);
+          }
         } catch (error) {
           console.error("Error reading data from Firebase:", error);
         }
       };
-
       // fetchData 함수 호출
       fetchData();
     }
-  }, [userId, emailExists]);
+  }, [authUser, emailExists]);
 
   return (
     <div className="title-page">
       <div className="title">
-        <img className="main_logo" alt="sun1 with sky" src={mainLogo} />
+        <img className="main_logo" alt="하늘타로 로고" src={mainLogo} />
         <h1 className="main_title">하늘타로</h1>
       </div>
       <div className="userInfoSubmit">
         <div className="custom-button">
-          {emailExists ? (
-            <Link to="/start">바로 시작하기</Link>
+          {userId ? (
+            emailExists ? (
+              <Link to="/start">바로 시작하기</Link>
+            ) : (
+              <Link to="/start/input">시작하기</Link>
+            )
           ) : (
             "상단 Google 로그인 버튼을 통해 로그인하셔야 시작이 가능합니다."
           )}

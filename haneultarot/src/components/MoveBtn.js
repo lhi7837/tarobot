@@ -7,7 +7,7 @@ const MoveBtn = ({ currentPage, maxPage, onClick }) => {
   return (
     <div>
       <div className="userInfoSubmit">
-        <div className="custom-button">
+        <div className="move-btn">
           {currentPage <= maxPage && currentPage > 1 ? (
             <img
               src={PrevBtn}
@@ -16,25 +16,26 @@ const MoveBtn = ({ currentPage, maxPage, onClick }) => {
             />
           ) : null}
         </div>
-        <div className="custom-button">
+        <div className="move-btn">
           {currentPage < maxPage && currentPage >= 0 ? (
             <img
               src={NextBtn}
               onClick={() => onClick(currentPage, "next")}
               alt="next button"
             />
-          ) : null}
+          ) : (
+            <div className="custom-button" style={{ margin: "5px" }}>
+              {currentPage === maxPage ? (
+                <a
+                  onClick={() => onClick(currentPage, "submit")}
+                  alt="tarot-start-button"
+                >
+                  타로보러가기
+                </a>
+              ) : null}
+            </div>
+          )}
         </div>
-      </div>
-      <div className="custom-button">
-        {currentPage === maxPage ? (
-          <button
-            onClick={() => onClick(currentPage, "submit")}
-            alt="tarot-start-button"
-          >
-            타로보러가기
-          </button>
-        ) : null}
       </div>
     </div>
   );

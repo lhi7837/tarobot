@@ -90,10 +90,27 @@ textarea {
 .main_title {
   font-size: 48px;
 }
+.paging-number {
+  text-align: center;
+  margin: 20px;
+}
+.userinfo-container {
+  text-align: center;
+  margin: 20px;
+}
 
 .userInfoSubmit {
   margin: 1rem;
+  display: inline-flex;
+  width: 400px;
+  height: 300px;
+  justify-content: space-around;
 }
+.move-btn {
+  margin: 1rem;
+  cursor: pointer;
+}
+
 .loginBtn {
   display: flex;
   align-content: center;
@@ -149,7 +166,7 @@ textarea {
   cursor: pointer;
 }
 .custom-button > a:hover,
-.custom-button > li > a:hover {
+.custom-button > li > a:hover { 
   box-shadow: 0px 15px 20px rgba(0, 0, 0, 0.2);
   background-color: #f7f2eb;
   cursor: pointer;
