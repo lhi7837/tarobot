@@ -6,16 +6,18 @@ https://haneultarot-47911.web.app/
 최근 타로, 사주 등 다양한 점술을 통해 본인의 현재 고민 사항을 해소하기 위해 상황을
 판단하고, 선택에 도움을 받고자 하는 현대인에게 최근 여러 산업에 접목되고 있는 AI 기술을
 활용하여 인공지능에게 타로 분석을 받는 서비스를 제공하고자 개발하였다. 
+
 ## 1.2 캡스톤디자인 목표
 - LLM이 적용된 AI를 활용하여 인공지능이 적용된 웹앱을 제작한다. - 다양한 외부 라이브러리(React, React-router-dom, Firebase, Gemini,
 indiana-drag-scroll 등) 를 활용하여 하나의 완성된 웹앱을 제작한다.
+
 ## 1.3 캡스톤디자인 관련 조사(연구)
 1. 띵스플로우: 헬로봇(https://hellobot.co/)
-가. 모바일 앱 위주의 서비스
-나. 챗봇 형태로 구성
-2. 원지랩스: 마이타로AI(https://www.aitimes.com/news/articleView.html?idxno=151535)
-가. 모바일 앱 위주의 서비스
-나. GPT를 활용한 분석
+- 모바일 앱 위주의 서비스
+- 챗봇 형태로 구성
+3. 원지랩스: 마이타로AI(https://www.aitimes.com/news/articleView.html?idxno=151535)
+- 모바일 앱 위주의 서비스
+- GPT를 활용한 분석
 
 # 사용 기술 스택
 - React.js
@@ -24,7 +26,7 @@ indiana-drag-scroll 등) 를 활용하여 하나의 완성된 웹앱을 제작�
 - Firebase Hosting
 
 # 전체 설계
-<img width="581" alt="하늘타로 구조도" src="https://github.com/user-attachments/assets/0df11d39-071f-40eb-bc11-724c50fe6a2f" />
+![image](https://github.com/user-attachments/assets/0df11d39-071f-40eb-bc11-724c50fe6a2f)
 - Users가 웹브라우저(크롬과 같은)를 통해 사이트에 접속한다.
 - 사이트에서는 React를 이용해 화면을 구성한다.
 - 구글 로그인 후 데이터 입력을 시작한다.
@@ -39,6 +41,7 @@ indiana-drag-scroll 등) 를 활용하여 하나의 완성된 웹앱을 제작�
   - Firebase를 통해 deploy하여 웹페이지 Hosting 구현
 - Data Output
   - 유저가 입력한 정보를 바탕으로 AI가 분석한 결과를 제공 받는다.
+  
 ## 사용 라이브러리
 ![image](https://github.com/user-attachments/assets/61f9bc65-e235-4429-958f-539ff32635ec)
 
