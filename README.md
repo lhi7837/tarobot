@@ -1,5 +1,7 @@
 ### 링크
 https://haneultarot-47911.web.app/
+![image](https://github.com/user-attachments/assets/3c4e6c11-ea36-4ab2-a9d4-c56f53646cdb)
+
 
 # 1. 캡스톤디자인 개요
 ## 1.1 캡스톤디자인 배경
