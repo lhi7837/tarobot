@@ -1,3 +1,8 @@
+### 1인 프로젝트 진행 (디자인 지인 외주)
+- 개발 기간 (기획 및 디자인 기간 제외) : 2023. 10 ~ 2024. 01
+
+### 
+
 ### 링크
 https://haneultarot-47911.web.app/
 ![image](https://github.com/user-attachments/assets/3c4e6c11-ea36-4ab2-a9d4-c56f53646cdb)
@@ -10,8 +15,8 @@ https://haneultarot-47911.web.app/
 활용하여 인공지능에게 타로 분석을 받는 서비스를 제공하고자 개발하였다. 
 
 ## 1.2 캡스톤디자인 목표
-- LLM이 적용된 AI를 활용하여 인공지능이 적용된 웹앱을 제작한다. - 다양한 외부 라이브러리(React, React-router-dom, Firebase, Gemini,
-indiana-drag-scroll 등) 를 활용하여 하나의 완성된 웹앱을 제작한다.
+- LLM이 적용된 AI를 활용하여 인공지능이 적용된 웹앱을 제작한다.
+- 다양한 외부 라이브러리(React, React-router-dom, Firebase, ~Gemini~ ChatGPT, indiana-drag-scroll 등) 를 활용하여 하나의 완성된 웹앱을 제작한다.
 
 ## 1.3 캡스톤디자인 관련 조사(연구)
 1. 띵스플로우: 헬로봇(https://hellobot.co/)
